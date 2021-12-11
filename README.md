@@ -1,5 +1,20 @@
 Scala TODO List
 ==============
+
+## Business Requirements
+An API that will allow users to create private TODO's.
+Privacy is provided through authentication & authorization)
+
+Expected functinality:
+* Auth
+  * Registration
+  * Login
+  * Update of user's data (only possible by the owner of account)  
+* Todos
+  * Create todo
+  * View user's todos (user should see only it's todos)
+  * Update todo (only possible by the author of the todo)
+
 ## Stack
 - [Http4s](http://http4s.org/) 
 - [Circe](https://circe.github.io/circe/)
@@ -32,6 +47,6 @@ To stop the app in sbt, hit the `Enter` key and then type:
 > reStop
 ```
 
-# Acknowledgments
+## Acknowledgments
 
 https://github.com/pauljamescleary/scala-pet-store was used as the remplate
