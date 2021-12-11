@@ -3,7 +3,7 @@ echo "Running func tests"
 echo "Starting server"
 
 trap 'kill -TERM $SERVER_PID' TERM INT
-./target/universal/stage/bin/scala-pet-store &
+./target/universal/stage/bin/scala-todo-list &
 
 SERVER_PID=$!
 PARENT_PID=$$
