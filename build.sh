@@ -32,13 +32,6 @@ do
     fi
 done
 
-echo "Server started, running func tests"
-cd functional_test
-python3 ./run.py live_tests -v
-FUNC_TEST_RESULT=$?
-
-echo "Functional tests completed with status $FUNC_TEST_RESULT, stopping server with PID $SERVER_PID, PPID $PARENT_PID"
-
 kill $SERVER_PID
 wait $SERVER_PID
 trap - TERM INT
