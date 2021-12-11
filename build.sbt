@@ -1,5 +1,5 @@
-organization := "io.github.pauljamescleary"
-name := "scala-pet-store"
+organization := "io.github.valentun"
+name := "scala-todo-list"
 version := "0.0.1-SNAPSHOT"
 crossScalaVersions := Seq("2.12.15", "2.13.6")
 
@@ -63,17 +63,17 @@ addCompilerPlugin(
 enablePlugins(ScalafmtPlugin, JavaAppPackaging, GhpagesPlugin, MicrositesPlugin, MdocPlugin)
 
 // Microsite settings
-git.remoteRepo := "git@github.com:pauljamescleary/scala-pet-store.git"
+git.remoteRepo := "git@github.com:ValentunSergeev/Scala-Todolist.git"
 
-micrositeGithubOwner := "pauljamescleary"
+micrositeGithubOwner := "valentun"
 
-micrositeGithubRepo := "scala-pet-store"
+micrositeGithubRepo := "scala-todo-list"
 
-micrositeName := "Scala Pet Store"
+micrositeName := "Scala Todo List"
 
 micrositeDescription := "An example application using FP techniques in Scala"
 
-micrositeBaseUrl := "scala-pet-store"
+micrositeBaseUrl := "scala-todo-list"
 
 // Note: This fixes error with sbt run not loading config properly
 fork in run := true
