@@ -1,14 +1,13 @@
 package io.github.valentun.todolist
 package infrastructure.repository.inmemory
 
-import java.util.Random
-
-import cats.implicits._
 import cats.Applicative
 import cats.data.OptionT
-import domain.users.{User, UserRepositoryAlgebra}
+import cats.implicits._
+import io.github.valentun.todolist.domain.users.{User, UserRepositoryAlgebra}
 import tsec.authentication.IdentityStore
 
+import java.util.Random
 import scala.collection.concurrent.TrieMap
 
 class UserRepositoryInMemoryInterpreter[F[_]: Applicative]
@@ -18,31 +17,53 @@ class UserRepositoryInMemoryInterpreter[F[_]: Applicative]
 
   private val random = new Random
 
-  def create(user: User): F[User] = {
-    val id = random.nextLong()
-    val toSave = user.copy(id = id.some)
-    cache += (id -> toSave)
-    toSave.pure[F]
-  }
+  def create(user: User): F[User] = Applicative[F]
+    .pure(user)
+    .map { user =>
+      val id = random.nextLong()
+      val toSave = user.copy(id = id.some)
+      cache += (id -> toSave)
+
+      toSave
+    }
 
   def update(user: User): OptionT[F, User] = OptionT {
-    user.id.traverse { id =>
-      cache.update(id, user)
-      user.pure[F]
-    }
+    Applicative[F]
+      .pure(user)
+      .map { user =>
+        user.id.map { id =>
+          cache.update(id, user)
+
+          user
+        }
+      }
   }
 
-  def get(id: Long): OptionT[F, User] =
-    OptionT.fromOption(cache.get(id))
+  def get(id: Long): OptionT[F, User] = OptionT {
+    Applicative[F]
+      .pure(id)
+      .map(cache.get)
+  }
 
-  def delete(id: Long): OptionT[F, User] =
-    OptionT.fromOption(cache.remove(id))
+  def delete(id: Long): OptionT[F, User] = OptionT {
+    Applicative[F]
+      .pure(id)
+      .map(cache.remove)
+  }
 
-  def findByUserName(userName: String): OptionT[F, User] =
-    OptionT.fromOption(cache.values.find(u => u.userName == userName))
+  def findByUserName(userName: String): OptionT[F, User] = OptionT {
+    Applicative[F]
+      .pure(userName)
+      .map { userName =>
+        cache.values.find(u => u.userName == userName)
+      }
+  }
 
-  def list(pageSize: Int, offset: Int): F[List[User]] =
-    cache.values.toList.slice(offset, offset + pageSize).pure[F]
+  def list(pageSize: Int, offset: Int): F[List[User]] = Applicative[F]
+    .pure((pageSize, offset))
+    .map { case (pageSize, offset) =>
+      cache.values.toList.slice(offset, offset + pageSize)
+    }
 
   def deleteByUserName(userName: String): OptionT[F, User] =
     OptionT.fromOption(

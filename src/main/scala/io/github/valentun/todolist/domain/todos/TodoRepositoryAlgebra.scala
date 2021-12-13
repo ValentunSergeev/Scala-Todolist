@@ -1,6 +1,7 @@
 package io.github.valentun.todolist.domain.todos
 
 trait TodoRepositoryAlgebra[F[_]] {
+
   def create(todo: Todo, userId: Long): F[Todo]
 
   def update(todo: Todo): F[Option[Todo]]
